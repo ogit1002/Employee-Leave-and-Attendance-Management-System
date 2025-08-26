@@ -1,0 +1,44 @@
+<html style="height: 100%; margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/assets/image.jpg') no-repeat center center fixed; background-size: cover;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+      <div class="container mt-4">
+  <section class="mb-4 text-center heading-section">
+    <h3><br>Role Management</h3>
+    <p class="text-muted">Assign roles to users and manage their permissions effectively.</p>
+  </section>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <!-- Success Message -->
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+  <!-- Assign Role Section -->
+  <div class="card p-4 mb-4">
+    <h5 class="mb-3">Assign Role</h5>
+    <form (ngSubmit)="assignRole()" #assignForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input type="email" [(ngModel)]="roleAssignment.userEmail" name="userEmail" required class="form-control" />
+        <label>User Email</label>
+      </div>
+      <div class="form-group">
+        <select [(ngModel)]="roleAssignment.role" name="role" required class="form-control">
+          <option value="" disabled selected>Select Role</option>
+          <option value="Admin">Admin</option>
+          <option value="Manager">Manager</option>
+          <option value="Employee">Employee</option>
+        </select>
+        <label>Role</label>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="assignForm.invalid">Assign</button>
+    </form>
+  </div>
+
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">{{ successMessage }}</h5>
+      <button class="btn btn-success" (click)="closeSuccessModal()">OK</button>
+    </div>
+  </div>
+</div>

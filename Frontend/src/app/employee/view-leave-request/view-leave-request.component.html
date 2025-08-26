@@ -1,0 +1,41 @@
+<div class="leave-request-view-wrapper">
+  <div class="centered-content">
+    <div class="header-bar">
+      <h2 class="hover-title">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/request-service.png" alt="Leave Icon" class="logo" />
+        <span>My Leave Requests</span>
+      </h2>
+    </div>
+
+    <div *ngIf="error" class="alert error-alert">{{ error }}</div>
+
+    <div class="card table-card" *ngIf="!error && myLeaveRequests.length > 0">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Employee ID</th>
+              <th>Leave Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lr of myLeaveRequests">
+              <td>{{ lr.employeeID }}</td>
+              <td>{{ lr.leaveType }}</td>
+              <td>{{ lr.startDate | date }}</td>
+              <td>{{ lr.endDate | date }}</td>
+              <td>{{ lr.status || 'Pending' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!error && myLeaveRequests.length === 0" class="card info-card">
+      <span class="icon">&#8505;</span> No leave requests found.
+    </div>
+  </div>
+</div>

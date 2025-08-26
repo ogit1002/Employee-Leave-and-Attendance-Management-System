@@ -1,0 +1,112 @@
+<html style="height: 100%; margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/assets/image.jpg') no-repeat center center fixed; background-size: cover;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+      <div class="container mt-4">
+  <section class="mb-4 text-center heading-section">
+    <h3><br>Employee Management</h3>
+    <p class="text-muted">Manage employee records efficiently. Add, view, update, and search employees.</p>
+  </section>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+  <!-- Add Employee Section -->
+  <div *ngIf="isAdmin" class="card p-4 mb-4">
+    <h5 class="mb-3">Add New Employee</h5>
+    <form (ngSubmit)="addEmployee()" #addEmpForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Name" required [(ngModel)]="newEmployee.name" name="name" />
+        <label>Name</label>
+      </div>
+      <div class="form-group">
+        <input type="email" class="form-control" placeholder="Email" required [(ngModel)]="newEmployee.email" name="email" />
+        <label>Email</label>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Address" required [(ngModel)]="newEmployee.address" name="address" />
+        <label>Address</label>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="addEmpForm.invalid">Add Employee</button>
+    </form>
+  </div>
+
+  <!-- All Employees Section -->
+  <div *ngIf="isAdminOrManager" class="card p-4 mb-4">
+    <h5 class="mb-3">All Employees</h5>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th *ngIf="isAdmin">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of employees">
+            <td>{{ emp.id }}</td>
+            <td>{{ emp.name }}</td>
+            <td>{{ emp.email }}</td>
+            <td>{{ emp.address }}</td>
+            <td *ngIf="isAdmin">
+              <button class="btn btn-sm btn-danger button-spacing" (click)="startEdit(emp)">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteEmployee(emp.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Get Employee By ID Section -->
+  <div *ngIf="isAdminOrManager" class="card p-4 mb-4">
+    <h5 class="mb-3">Get Employee By ID</h5>
+    <form (submit)="getEmployeeById(+empId.value)" class="form-grid">
+      <div class="form-group">
+        <input #empId type="number" class="form-control" placeholder="Employee ID" required />
+        <label>Employee ID</label>
+      </div>
+      <button class="btn btn-danger" type="submit">Fetch</button>
+    </form>
+    <div *ngIf="selectedEmployee" class="alert alert-info mt-3">
+      <strong>ID:</strong> {{ selectedEmployee.id }}<br>
+      <strong>Name:</strong> {{ selectedEmployee.name }}<br>
+      <strong>Email:</strong> {{ selectedEmployee.email }}<br>
+      <strong>Address:</strong> {{ selectedEmployee.address }}
+    </div>
+  </div>
+
+  <!-- Edit Employee Modal -->
+  <div *ngIf="editEmployee.id" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">Edit Employee</h5>
+      <form (ngSubmit)="updateEmployee()" class="form-grid">
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]="editEmployee.name" name="editName" required placeholder="Name" />
+          <label>Name</label>
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" [(ngModel)]="editEmployee.email" name="editEmail" required placeholder="Email" />
+          <label>Email</label>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" [(ngModel)]="editEmployee.address" name="editAddress" required placeholder="Address" />
+          <label>Address</label>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" class="btn btn-secondary ms-2" (click)="editEmployee = {}">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">{{ successMessage }}</h5>
+      <button class="btn btn-success" (click)="closeSuccessModal()">OK</button>
+    </div>
+  </div>
+</div>

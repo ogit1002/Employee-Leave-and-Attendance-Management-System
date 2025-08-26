@@ -1,0 +1,108 @@
+<nav class="navbar fixed-top custom-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">Leave and Attendance System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+
+        <!-- Profile Info Block (shown if logged in) -->
+        <ng-container *ngIf="isLoggedIn$ | async">
+          <div class="profile-info-offcanvas mb-3 p-3 rounded shadow-sm d-flex flex-column align-items-start" style="background:#f5f7fa;">
+            <div class="d-flex align-items-center mb-2">
+              <!-- SVG icon for profile -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#555" class="me-2" viewBox="0 0 16 16">
+                <path d="M11 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 1 0 0 14A7 7 0 0 0 8 1z"/>
+                <path fill-rule="evenodd" d="M8 9a3 3 0 0 1-2.995-2.824A5.978 5.978 0 0 1 8 4a5.978 5.978 0 0 1 2.995.176A3 3 0 0 1 8 9z"/>
+              </svg>
+              <span class="fw-bold" style="font-size:1.1rem;">{{ userEmail }}</span>
+            </div>
+            <div *ngIf="userRoles && userRoles.length" class="text-muted" style="font-size:0.95rem;">
+              <span *ngFor="let role of userRoles; let last = last">
+                {{ role }}<span *ngIf="!last">, </span>
+              </span>
+            </div>
+          </div>
+        </ng-container>
+
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <!-- Public navigation -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active" aria-current="page" data-bs-dismiss="offcanvas">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/aboutUs" routerLinkActive="active" data-bs-dismiss="offcanvas">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/contactUs" routerLinkActive="active" data-bs-dismiss="offcanvas">Contact Us</a>
+          </li>
+        
+          <li class="nav-item" *ngIf="isLoggedIn$ | async">
+            <button class="nav-link btn btn-link" (click)="logout()" style="color:#dc3545;" data-bs-dismiss="offcanvas">Logout</button>
+          </li>
+          
+          <!-- Show Login if NOT LOGGED IN -->
+          <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active" data-bs-dismiss="offcanvas">Login</a>
+          </li>
+
+          <!-- Admin dropdown (if user is admin) -->
+          <li class="nav-item dropdown" *ngIf="hasRole('admin')">
+            <a class="nav-link dropdown-toggle text-primary" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Admin
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+              <li><a class="dropdown-item" routerLink="/employee-management" data-bs-dismiss="offcanvas">Employee Management</a></li>
+              <li><a class="dropdown-item" routerLink="/attendance-management" data-bs-dismiss="offcanvas">Attendance Management</a></li>
+              <li><a class="dropdown-item" routerLink="/attendance-report-management" data-bs-dismiss="offcanvas">Attendance Reports</a></li>
+              <li><a class="dropdown-item" routerLink="/leave-balance-management" data-bs-dismiss="offcanvas">Leave Balances</a></li>
+              <li><a class="dropdown-item" routerLink="/swap-shift-management" data-bs-dismiss="offcanvas">Swap Shift Management</a></li>
+              <li><a class="dropdown-item" routerLink="/leave-request-management" data-bs-dismiss="offcanvas">Leave Request Management</a></li>
+              <li><a class="dropdown-item" routerLink="/role-management" data-bs-dismiss="offcanvas">Role Management</a></li>
+              <li><a class="dropdown-item" routerLink="/shift-management" data-bs-dismiss="offcanvas">Shift Management</a></li>
+            </ul>
+          </li>
+
+          <!-- Manager dropdown (if user is manager) -->
+          <li class="nav-item dropdown" *ngIf="hasRole('manager')">
+            <a class="nav-link dropdown-toggle text-success" href="#" id="managerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Manager
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="managerDropdown">
+              <li><a class="dropdown-item" routerLink="/employee-management" data-bs-dismiss="offcanvas">Employee Management</a></li>
+              <li><a class="dropdown-item" routerLink="/attendance-management" data-bs-dismiss="offcanvas">Attendance Management</a></li>
+              <li><a class="dropdown-item" routerLink="/attendance-report-management" data-bs-dismiss="offcanvas">Attendance Reports</a></li>
+              <li><a class="dropdown-item" routerLink="/leave-balance-management" data-bs-dismiss="offcanvas">Leave Balances</a></li>
+              <li><a class="dropdown-item" routerLink="/swap-shift-management" data-bs-dismiss="offcanvas">Swap Shift Management</a></li>
+              <li><a class="dropdown-item" routerLink="/leave-request-management" data-bs-dismiss="offcanvas">Leave Request Management</a></li>
+              <li><a class="dropdown-item" routerLink="/shift-management" data-bs-dismiss="offcanvas">Shift Management</a></li>
+            </ul>
+          </li>
+          
+          <!-- Employee dropdown (if user is employee) -->
+          <li class="nav-item dropdown" *ngIf="hasRole('employee')">
+            <a class="nav-link dropdown-toggle text-warning" href="#" id="employeeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Employee
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="employeeDropdown">
+              <li><a class="dropdown-item" routerLink="/add-attendance" data-bs-dismiss="offcanvas">Add Attendance</a></li>
+              <li><a class="dropdown-item" routerLink="/add-leave-request" data-bs-dismiss="offcanvas">Request Leave</a></li>
+              <li><a class="dropdown-item" routerLink="/view-attendance" data-bs-dismiss="offcanvas">View Attendance</a></li>
+              <li><a class="dropdown-item" routerLink="/req-swap-shift" data-bs-dismiss="offcanvas">Request Swap Shift</a></li>
+              <li><a class="dropdown-item" routerLink="/view-leave-balance" data-bs-dismiss="offcanvas">View Leave Balance</a></li>
+              <li><a class="dropdown-item" routerLink="/view-leave-request" data-bs-dismiss="offcanvas">View Leave Requests</a></li>
+              <li><a class="dropdown-item" routerLink="/view-my-shift" data-bs-dismiss="offcanvas">View My Shifts</a></li>
+              <li><a class="dropdown-item" routerLink="/view-swap-shift-req" data-bs-dismiss="offcanvas">View Swap Shift Requests</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

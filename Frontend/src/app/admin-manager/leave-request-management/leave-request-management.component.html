@@ -1,0 +1,142 @@
+<html style="height: 100%; margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/assets/image.jpg') no-repeat center center fixed; background-size: cover;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+      <div class="container mt-4">
+  <section class="mb-4 text-center heading-section">
+    <h3><br>Leave Request Management</h3>
+    <p class="text-muted">Submit, view, and manage employee leave requests in a centralized dashboard.</p>
+  </section>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+  <!-- Add Leave Request Section -->
+  <div *ngIf="canAdd()" class="card p-4 mb-4">
+    <h5 class="mb-3">Add Leave Request</h5>
+    <form (ngSubmit)="addLeaveRequest()" #addForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input type="number" [(ngModel)]="newLeaveRequest.employeeID" name="employeeID" required [readonly]="role==='employee'" class="form-control" />
+        <label>Employee ID</label>
+      </div>
+      <div class="form-group">
+        <select [(ngModel)]="newLeaveRequest.leaveType" name="leaveType" required class="form-control">
+          <option value="" disabled selected>Select Leave Type</option>
+          <option value="Sick">Sick</option>
+          <option value="Casual">Casual</option>
+          <option value="Personal">Personal</option>
+        </select>
+        <label>Leave Type</label>
+      </div>
+      <div class="form-group">
+        <input type="date" [(ngModel)]="newLeaveRequest.startDate" name="startDate" required class="form-control" />
+        <label>Start Date</label>
+      </div>
+      <div class="form-group">
+        <input type="date" [(ngModel)]="newLeaveRequest.endDate" name="endDate" required class="form-control" />
+        <label>End Date</label>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Submit</button>
+    </form>
+  </div>
+
+  <!-- All Leave Requests Section -->
+  <div *ngIf="canViewAll()" class="card p-4 mb-4">
+    <h5 class="mb-3">All Leave Requests</h5>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Employee ID</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th *ngIf="canUpdate() || canDelete()">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lr of leaveRequests">
+            <td>{{lr.employeeID}}</td>
+            <td>{{lr.leaveType}}</td>
+            <td>{{lr.startDate | date}}</td>
+            <td>{{lr.endDate | date}}</td>
+            <td>{{lr.status || 'Pending'}}</td>
+            <td *ngIf="canUpdate() || canDelete()">
+              <button *ngIf="canUpdate()" class="btn btn-sm btn-info button-spacing" (click)="prepareUpdate(lr)">Edit</button> 
+              <button *ngIf="canDelete() && lr.leaveID != null" class="btn btn-sm btn-danger" (click)="deleteLeaveRequest(lr.leaveID)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Update Leave Request Modal -->
+  <div *ngIf="canUpdate() && updateId!==null && showUpdateLeaveModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">Update Leave Request</h5>
+      <form (ngSubmit)="updateLeaveRequestFunc()" #updateForm="ngForm" class="form-grid">
+        <div class="form-group">
+          <select [(ngModel)]="updateLeaveRequest.leaveType" name="updateLeaveType" required class="form-control">
+            <option value="" disabled>Select Leave Type</option>
+            <option value="Sick">Sick</option>
+            <option value="Casual">Casual</option>
+            <option value="Personal">Personal</option>
+          </select>
+          <label>Leave Type</label>
+        </div>
+        <div class="form-group">
+          <input type="date" [(ngModel)]="updateLeaveRequest.startDate" name="updateStartDate" required class="form-control" />
+          <label>Start Date</label>
+        </div>
+        <div class="form-group">
+          <input type="date" [(ngModel)]="updateLeaveRequest.endDate" name="updateEndDate" required class="form-control" />
+          <label>End Date</label>
+        </div>
+        <div class="form-group">
+          <select [(ngModel)]="updateLeaveRequest.status" name="updateStatus" required class="form-control">
+            <option *ngFor="let option of statusOptions" [value]="option">{{option}}</option>
+          </select>
+          <label>Status</label>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success" [disabled]="updateForm.invalid">Update</button>
+          <button type="button" class="btn btn-secondary" (click)="closeUpdateLeaveModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- My Leave Requests Section -->
+  <div *ngIf="canGetMy()" class="card p-4 mb-4">
+    <h5 class="mb-3">My Leave Requests</h5>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lr of myLeaveRequests">
+            <td>{{lr.leaveType}}</td>
+            <td>{{lr.startDate | date}}</td>
+            <td>{{lr.endDate | date}}</td>
+            <td>{{lr.status || 'Pending'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">{{ successMessage }}</h5>
+      <button class="btn btn-success" (click)="closeSuccessModal()">OK</button>
+    </div>
+  </div>
+</div>

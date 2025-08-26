@@ -1,0 +1,46 @@
+<div class="leave-balance-wrapper">
+  <div class="centered-content">
+    <div class="header-bar">
+      <h2 class="hover-title">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/money.png" alt="Balance Icon" class="logo" />
+        <span>My Leave Balances</span>
+      </h2>
+    </div>
+
+    <ng-container *ngIf="canViewOwn(); else noPermission">
+      <div *ngIf="loading" class="loading-bar">Loading...</div>
+      <div *ngIf="error" class="alert error-alert">{{ error }}</div>
+
+      <div *ngIf="!error && leaveBalances.length > 0" class="card table-card">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Leave Balance ID</th>
+                <th>Leave Type</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let lb of leaveBalances">
+                <td>{{ lb.leaveBalanceID }}</td>
+                <td>{{ lb.leaveType }}</td>
+                <td>{{ lb.balance }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div *ngIf="!error && !loading && leaveBalances.length === 0" class="card info-card">
+        <span class="icon">&#8505;</span> No leave balance records found.
+      </div>
+    </ng-container>
+
+    <ng-template #noPermission>
+      <div class="card info-card">
+        <span class="icon">&#9888;</span> You do not have permission to view leave balances.
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,167 @@
+<html style="height: 100%; margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/assets/image.jpg') no-repeat center center fixed; background-size: cover;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+      <div class="container mt-4">
+  <!-- Page Title and Subtitle -->
+  <section class="mb-4 text-center heading-section"><br>
+    <h2 class="page-title">Shift Management</h2>
+    <p class="text-muted">Easily manage employee shifts. Add, view, and update shifts in one place.</p>
+  </section>
+
+  <!-- Add Shift Section -->
+  <div class="card p-4 mb-4">
+    <h5 class="mb-3">Add Shift</h5>
+    <form (ngSubmit)="addShift()" #addShiftForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Employee ID"
+          [(ngModel)]="newShift.EmployeeId"
+          name="employeeId"
+          required
+        />
+        <label>Employee ID</label>
+      </div>
+      <div class="form-group">
+        <input
+          type="datetime-local"
+          class="form-control"
+          [(ngModel)]="newShift.ShiftDate"
+          name="shiftDate"
+          required
+        />
+        <label>Clock In Time</label>
+      </div>
+      <div class="form-group">
+        <input
+          type="datetime-local"
+          class="form-control"
+          [(ngModel)]="newShift.ShiftTime"
+          name="shiftTime"
+          required
+        />
+        <label>Clock Out Time</label>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="addShiftForm.invalid">Add Shift</button>
+    </form>
+  </div>
+
+  <!-- All Shifts Section -->
+  <div class="card shadow-sm p-4 mb-4">
+    <h4 class="section-title">All Shifts</h4>
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th>Shift ID</th>
+            <th>Employee ID</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let shift of shifts">
+            <td>{{ shift.ShiftId }}</td>
+            <td>
+              <ng-container *ngIf="selectedShift?.ShiftId === shift.ShiftId; else showEmployeeId">
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="updateShiftData.EmployeeId"
+                />
+              </ng-container>
+              <ng-template #showEmployeeId>{{ shift.EmployeeId }}</ng-template>
+            </td>
+            <td>
+              <ng-container *ngIf="selectedShift?.ShiftId === shift.ShiftId; else showStart">
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  [(ngModel)]="updateShiftData.ShiftDate"
+                />
+              </ng-container>
+              <ng-template #showStart>{{ shift.ShiftDate | date: 'medium' }}</ng-template>
+            </td>
+            <td>
+              <ng-container *ngIf="selectedShift?.ShiftId === shift.ShiftId; else showEnd">
+                <input
+                  type="datetime-local"
+                  class="form-control"
+                  [(ngModel)]="updateShiftData.ShiftTime"
+                />
+              </ng-container>
+              <ng-template #showEnd>{{ shift.ShiftTime | date: 'medium' }}</ng-template>
+            </td>
+            <td>
+              <button
+                *ngIf="!selectedShift || selectedShift.ShiftId !== shift.ShiftId"
+                class="btn btn-sm btn-outline-info button-spacing"
+                (click)="prepareUpdate(shift)"
+              >
+                Edit
+              </button>
+              <button
+                *ngIf="selectedShift?.ShiftId === shift.ShiftId"
+                class="btn btn-sm btn-success button-spacing"
+                (click)="updateShift()"
+              >
+                Save
+              </button>
+              <button
+                *ngIf="selectedShift?.ShiftId === shift.ShiftId"
+                class="btn btn-sm btn-secondary button-spacing"
+                (click)="cancelUpdate()"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn btn-sm btn-outline-danger"
+                (click)="deleteShift(shift.ShiftId!)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card p-4 mb-4">
+    <h3 class="mb-3">Fetch Shift by ID</h3>
+    
+    <input
+      type="number"
+      [(ngModel)]="fetchShiftId"
+      placeholder="Enter Shift ID"
+      class="form-control"
+    />
+    <button (click)="fetchShiftById()" class="btn btn-primary mt-2">
+      Fetch Shift
+    </button>
+  </div>
+  
+  <div *ngIf="fetchedShift">
+    <h4>Shift Details</h4>
+    <p><strong>Employee ID:</strong> {{ fetchedShift.EmployeeId }}</p>
+    <p><strong>Shift Date:</strong> {{ fetchedShift.ShiftDate }}</p>
+    <p><strong>Shift Time:</strong> {{ fetchedShift.ShiftTime }}</p>
+  </div>
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">{{ successMessage }}</h5>
+      <button class="btn btn-success" (click)="closeSuccessModal()">OK</button>
+    </div>
+  </div>
+
+  <!-- Error Modal -->
+  <div *ngIf="showErrorModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3 text-danger">{{ errorMessage }}</h5>
+      <button class="btn btn-danger" (click)="closeErrorModal()">OK</button>
+    </div>
+  </div>
+</div>

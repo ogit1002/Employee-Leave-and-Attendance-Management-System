@@ -1,0 +1,155 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Outfit', sans-serif;
+  background: #fefbf6;
+  overflow-x: hidden;
+}
+
+.welcome-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.welcome-container::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 130%;
+  background: linear-gradient(to right, #fdfaf6, #fefcf9); /* lighter beige */
+  transform: skewY(-4deg);
+  transform-origin: top left;
+  z-index: -1;
+}
+
+.header-section {
+  text-align: center;
+  max-width: 800px;
+  margin-bottom: 40px;
+}
+
+.logo {
+  max-width: 80px;
+  margin-bottom: 16px;
+}
+
+.main-heading {
+  font-size: 2.4rem;
+  color: #d2694f; /* attractive terracotta */
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  animation: fadeInSlide 1.2s ease-out both;
+}
+@keyframes fadeInSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.highlight {
+  color: #a1887f;
+  font-weight: 700;
+}
+
+.sub-heading {
+  font-size: 1.2rem;
+  color: #6d4c41;
+  margin-bottom: 16px;
+}
+
+.intro {
+  font-size: 1rem;
+  color: #5d4037;
+  max-width: 700px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.btn-primary {
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #f1cfba, #c89f8f, #b88c7d);
+  background-size: 300% 300%;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  animation: gradientMove 6s ease infinite;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #a9746e, #8d5a50);
+  background-size: 200% 200%;
+  transform: scale(1.05);
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.feature-card {
+  background: #fdf6f0;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card img {
+  width: 60px;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  color: #4e342e;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.feature-card p {
+  color: #6d4c41;
+  font-size: 0.95rem;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  color: #a1887f;
+  font-size: 0.9rem;
+}

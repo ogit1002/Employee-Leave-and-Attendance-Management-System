@@ -1,0 +1,29 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .app-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  app-header {
+    flex-shrink: 0;
+    /* To ensure the header always stays at the top */
+  }
+  
+  .main-content {
+    flex: 1 0 auto;
+    padding: 24px 0 24px 0; /* Add vertical padding if needed */
+    background: #f4f8fb; /* Light background for content area */
+    min-height: 0; /* Fixes flexbox issues in some browsers */
+    margin-top: 30px;
+  }
+  
+  app-footer {
+    flex-shrink: 0;
+    /* To ensure the footer always stays at the bottom */
+  }

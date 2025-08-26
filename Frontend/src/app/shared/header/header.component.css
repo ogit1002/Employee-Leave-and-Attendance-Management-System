@@ -1,0 +1,24 @@
+
+.custom-navbar {
+  background-color: #ebdbcc !important;
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link {
+  color: #3e2723 !important; /* dark brown for contrast */
+}
+
+.custom-navbar .nav-link:hover {
+  color: #5d4037 !important;
+}
+
+.profile-info-offcanvas {
+    background: #f5f7fa;
+    border: 1px solid #e6e9ef;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  .profile-info-offcanvas svg {
+    width: 32px;
+    height: 32px;
+  }

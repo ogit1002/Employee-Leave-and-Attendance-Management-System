@@ -1,0 +1,58 @@
+<div class="attendance-wrapper">
+  <!-- Header -->
+  <div class="header-bar">
+    <h2 class="hover-title">
+      <span class="icon">&#128197;</span>
+      <span>Add Attendance</span>
+    </h2>
+  </div>
+
+  <!-- Alerts -->
+  <div *ngIf="success" class="alert success-alert">{{ success }}</div>
+  <div *ngIf="error" class="alert error-alert">{{ error }}</div>
+
+  <!-- Attendance Form -->
+  <div *ngIf="canAdd()" class="card form-card">
+    <h3>Attendance Record</h3>
+    <form (ngSubmit)="addAttendance()" #addAttendanceForm="ngForm" class="form-grid">
+      
+      <div class="form-group">
+        <label for="employeeId">Employee ID</label>
+        <input
+          type="number"
+          id="employeeId"
+          name="employeeId"
+          [(ngModel)]="attendance.employeeId"
+          required
+          [readonly]="role === 'employee'"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="clockInTime">Clock In Time</label>
+        <input
+          type="datetime-local"
+          id="clockInTime"
+          name="clockInTime"
+          [(ngModel)]="attendance.clockInTime"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="clockOutTime">Clock Out Time</label>
+        <input
+          type="datetime-local"
+          id="clockOutTime"
+          name="clockOutTime"
+          [(ngModel)]="attendance.clockOutTime"
+          required
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="addAttendanceForm.invalid">Add Attendance</button>
+      </div>
+    </form>
+  </div>
+</div>

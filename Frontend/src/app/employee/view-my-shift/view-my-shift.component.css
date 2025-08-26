@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500;600&display=swap');
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fdf6ec;
+}
+
+.view-my-shift-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+  background: #fdf6ec;
+}
+
+.centered-content {
+  width: 100%;
+  max-width: 800px;
+  background: #fffaf0;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(180, 140, 90, 0.1), 0 1.5px 10px #f0e8dc;
+  overflow: hidden;
+}
+
+.header-bar {
+  background: linear-gradient(90deg, #c8a97e 60%, #f5deb3 100%);
+  border-radius: 16px 16px 0 0;
+  padding: 1.5em 2em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.hover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2em;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  letter-spacing: 1.2px;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  vertical-align: middle;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+.card {
+  background: #fffaf0;
+  border-radius: 10px;
+  padding: 1.7em;
+  margin: 2em;
+  box-shadow: 0 1.5px 10px #e3e3e3;
+}
+
+.table-card {
+  padding-top: 1em;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #fffef9;
+  border-radius: 7px;
+  box-shadow: 0 1px 6px #f0e8dc;
+}
+
+th, td {
+  border: 1px solid #f0e8dc;
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 1.05em;
+}
+
+th {
+  background: #f5e9d3;
+  color: #8b5e3c;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background: #fdf6ec;
+}
+
+tr:hover {
+  background: #f5e9d3;
+}
+
+.info-card, .alert {
+  margin: 1.5em 2em;
+  padding: 1em 1.5em;
+  background: #fff9e7;
+  border: 1.5px solid #ffd500;
+  border-radius: 6px;
+  font-size: 1.05em;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.alert.error-alert {
+  background: #fcebea;
+  border-color: #e57373;
+  color: #c62828;
+}
+
+.info-card .icon, .alert .icon {
+  font-size: 1.4em;
+  margin-right: 0.75em;
+}
+
+@media (max-width: 700px) {
+  .view-my-shift-wrapper {
+    padding: 1em;
+  }
+
+  .centered-content {
+    padding: 0.5em;
+  }
+
+  table, th, td {
+    font-size: 0.97em;
+  }
+}

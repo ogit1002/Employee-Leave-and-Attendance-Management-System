@@ -1,0 +1,103 @@
+<html style="height: 100%; margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/assets/image.jpg') no-repeat center center fixed; background-size: cover;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+      <div class="container mt-4">
+  <section class="mb-4 text-center heading-section">
+    <h3><br>Attendance Report Management</h3>
+    <p class="text-muted">Manage attendance reports efficiently. Add, view, and update reports in a centralized dashboard.</p>
+  </section>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+  <!-- Add Attendance Report Section -->
+  <div *ngIf="canAdd()" class="card p-4 mb-4">
+    <h5 class="mb-3">Add Attendance Report</h5>
+    <form (ngSubmit)="addAttendanceReport()" #addForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input type="number" [(ngModel)]="newReport.employeeID" name="employeeID" required min="1" class="form-control" />
+        <label>Employee ID</label>
+      </div>
+      <div class="form-group">
+        <input type="number" [(ngModel)]="newReport.dateRange" name="dateRange" required min="1" class="form-control" />
+        <label>Date Range (days)</label>
+      </div>
+      <div class="form-group">
+        <input type="number" [(ngModel)]="newReport.totalAttendance" name="totalAttendance" required min="0" class="form-control" />
+        <label>Total Attendance</label>
+      </div>
+      <div class="form-group">
+        <input type="number" [(ngModel)]="newReport.absenteeism" name="absenteeism" required min="0" class="form-control" />
+        <label>Absenteeism</label>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Add Attendance Report</button>
+    </form>
+  </div>
+
+  <!-- All Attendance Reports Section -->
+  <div *ngIf="canView()" class="card p-4 mb-4">
+    <h5 class="mb-3">All Attendance Reports</h5>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Report ID</th>
+            <th>Employee ID</th>
+            <th>Date Range</th>
+            <th>Total Attendance</th>
+            <th>Absenteeism</th>
+            <th *ngIf="canUpdate() || canDelete()">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of reports">
+            <td>{{ report.reportID }}</td>
+            <td>{{ report.employeeID }}</td>
+            <td>{{ report.dateRange }}</td>
+            <td>{{ report.totalAttendance }}</td>
+            <td>{{ report.absenteeism }}</td>
+            <td *ngIf="canUpdate() || canDelete()">
+              <button *ngIf="canUpdate()" class="btn btn-sm btn-info button-spacing" (click)="prepareUpdate(report)">Edit</button>
+              <button *ngIf="canDelete()" class="btn btn-sm btn-danger" (click)="deleteAttendanceReport(report.reportID ?? 0)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Update Attendance Report Section -->
+  <div *ngIf="canUpdate() && updateId !== null" class="card p-4 mb-4">
+    <h5 class="mb-3">Update Attendance Report</h5>
+    <form (ngSubmit)="updateAttendanceReport()" #updateForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input type="number" [(ngModel)]="updateReport.employeeID" name="updateEmployeeID" required min="1" class="form-control" readonly />
+        <label>Employee ID</label>
+      </div>
+      <div class="form-group">
+        <input type="number" [(ngModel)]="updateReport.dateRange" name="updateDateRange" required min="1" class="form-control" />
+        <label>Date Range (days)</label>
+      </div>
+      <div class="form-group">
+        <input type="number" [(ngModel)]="updateReport.totalAttendance" name="updateTotalAttendance" required min="0" class="form-control" />
+        <label>Total Attendance</label>
+      </div>
+      <div class="form-group">
+        <input type="number" [(ngModel)]="updateReport.absenteeism" name="updateAbsenteeism" required min="0" class="form-control" />
+        <label>Absenteeism</label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success" [disabled]="updateForm.invalid">Update</button>
+        <button type="button" class="btn btn-secondary" (click)="updateId = null">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">{{ successMessage }}</h5>
+      <button class="btn btn-success" (click)="closeSuccessModal()">OK</button>
+    </div>
+  </div>
+</div>

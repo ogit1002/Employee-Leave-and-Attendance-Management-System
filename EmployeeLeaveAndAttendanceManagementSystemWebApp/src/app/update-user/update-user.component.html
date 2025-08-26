@@ -1,0 +1,69 @@
+<div class="container mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h2>Update Profile</h2>
+          </div>
+          <div class="card-body">
+            <!-- Loading Indicator -->
+            <div *ngIf="isLoading" class="text-center my-3">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+  
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ errorMessage }}
+              <button type="button" class="btn-close" (click)="errorMessage = null" aria-label="Close"></button>
+            </div>
+  
+            <!-- Success Message -->
+            <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ successMessage }}
+              <button type="button" class="btn-close" (click)="successMessage = null" aria-label="Close"></button>
+            </div>
+  
+            <!-- Update Form -->
+            <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+              <div class="mb-3">
+                <label for="primaryMobile" class="form-label">Primary Mobile Number</label>
+                <input type="text" class="form-control" id="primaryMobile" formControlName="primaryMobileNumber" placeholder="Enter your primary mobile number">
+              </div>
+  
+              <div class="mb-3">
+                <label for="secondaryMobile" class="form-label">Secondary Mobile Number</label>
+                <input type="text" class="form-control" id="secondaryMobile" formControlName="secondaryMobileNumber" placeholder="Enter your secondary mobile number">
+              </div>
+  
+              <div class="mb-3">
+                <label for="homeAddress" class="form-label">Home Address</label>
+                <textarea class="form-control" id="homeAddress" formControlName="homeAddress" rows="2" placeholder="Enter your home address"></textarea>
+              </div>
+  
+              <div class="mb-3">
+                <label for="officeAddress" class="form-label">Office Address</label>
+                <textarea class="form-control" id="officeAddress" formControlName="officeAddress" rows="2" placeholder="Enter your office address"></textarea>
+              </div>
+  
+              <div class="mb-3">
+                <label for="secondaryEmail" class="form-label">Secondary Email</label>
+                <input type="email" class="form-control" id="secondaryEmail" formControlName="secondaryEmail" placeholder="Enter your secondary email">
+              </div>
+  
+              <div class="mb-3">
+                <label for="additionalInfo" class="form-label">Additional Information</label>
+                <textarea class="form-control" id="additionalInfo" formControlName="additionalInfo" rows="3" placeholder="Enter any additional information"></textarea>
+              </div>
+  
+              <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" (click)="navigateToProfile()">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading">Update Profile</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

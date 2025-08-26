@@ -1,0 +1,117 @@
+<div class="attendance-dashboard-wrapper">
+
+  <!-- Main Card -->
+  <div class="card-container">
+    <div class="card-header">
+
+<html style="height: 100%; margin: 0; padding: 0;">
+  <body style="margin: 0; padding: 0; background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/assets/image.jpg') no-repeat center center fixed; background-size: cover;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+    <div class="container mt-4">
+  <section class="mb-4 text-center heading-section">
+    <h3><br>Attendance Management</h3>
+    <p class="text-muted">Manage employee attendance with ease. Add, view, and update records in a centralized dashboard.</p>
+  </section>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+  <!-- Add Attendance Section -->
+  <div class="card p-4 mb-4">
+    <h5 class="mb-3">Add Attendance</h5>
+    <form (ngSubmit)="addAttendance()" #addAttendanceForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input type="number" class="form-control" placeholder="Employee ID" [(ngModel)]="newAttendance.employeeId" name="employeeId" required />
+        <label>Employee ID</label>
+      </div>
+      <div class="form-group">
+        <input type="datetime-local" class="form-control" [(ngModel)]="newAttendance.clockInTime" name="clockInTime" required />
+        <label>Clock In Time</label>
+      </div>
+      <div class="form-group">
+        <input type="datetime-local" class="form-control" [(ngModel)]="newAttendance.clockOutTime" name="clockOutTime" required />
+        <label>Clock Out Time</label>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="addAttendanceForm.invalid">Add Attendance</button>
+    </form>
+  </div>
+
+  <!-- Fetch Attendance By ID Section -->
+  <div class="card p-4 mb-4">
+    <h5 class="mb-3">Fetch Attendance By ID</h5>
+    <form (ngSubmit)="getAttendanceById()" #fetchAttendanceForm="ngForm" class="form-grid">
+      <div class="form-group">
+        <input type="number" class="form-control" placeholder="Attendance ID" [(ngModel)]="attendanceIdToFetch" name="attendanceIdToFetch" required />
+        <label>Attendance ID</label>
+      </div>
+      <button type="submit" class="btn btn-info" [disabled]="fetchAttendanceForm.invalid">Fetch</button>
+    </form>
+    <div *ngIf="fetchAttendanceError" class="alert alert-danger mt-2">{{ fetchAttendanceError }}</div>
+    <div *ngIf="fetchedAttendance" class="alert alert-success mt-2">
+      <h6>Attendance Details</h6>
+      <ul class="mb-0">
+        <li><strong>ID:</strong> {{ fetchedAttendance.attendanceID }}</li>
+        <li><strong>Employee ID:</strong> {{ fetchedAttendance.employeeID }}</li>
+        <li><strong>Clock In:</strong> {{ fetchedAttendance.clockInTime | date:'medium' }}</li>
+        <li><strong>Clock Out:</strong> {{ fetchedAttendance.clockOutTime | date:'medium' }}</li>
+        <li><strong>Work Hours:</strong> {{ fetchedAttendance.workHours || '-' }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- All Attendance Records Section -->
+  <div class="card p-4 mb-4">
+    <h5 class="mb-3">All Attendance Records</h5>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Attendance ID</th>
+            <th>Employee ID</th>
+            <th>Clock In</th>
+            <th>Clock Out</th>
+            <th>Work Hours</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let att of attendances">
+            <td>{{ att.attendanceID }}</td>
+            <td>{{ att.employeeID }}</td>
+            <td>
+              <ng-container *ngIf="selectedAttendance?.attendanceID === att.attendanceID; else showClockIn">
+                <input type="datetime-local" class="form-control" [(ngModel)]="updateAttendanceData.clockInTime" />
+              </ng-container>
+              <ng-template #showClockIn>{{ att.clockInTime | date:'medium' }}</ng-template>
+            </td>
+            <td>
+              <ng-container *ngIf="selectedAttendance?.attendanceID === att.attendanceID; else showClockOut">
+                <input type="datetime-local" class="form-control" [(ngModel)]="updateAttendanceData.clockOutTime" />
+              </ng-container>
+              <ng-template #showClockOut>{{ att.clockOutTime | date:'medium' }}</ng-template>
+            </td>
+            <td>{{ att.workHours || '-' }}</td>
+            <td>
+              <button *ngIf="!selectedAttendance || selectedAttendance.attendanceID !== att.attendanceID"
+                      class="btn btn-sm btn-info button-spacing " (click)="selectAttendance(att)">Edit</button>
+              <button *ngIf="selectedAttendance?.attendanceID === att.attendanceID"
+                      class="btn btn-sm btn-success button-spacing" (click)="updateAttendance()">Save</button>
+              <button *ngIf="selectedAttendance?.attendanceID === att.attendanceID"
+                      class="btn btn-sm btn-secondary button-spacing" (click)="cancelUpdate()">Cancel</button>
+              <!-- Show Delete only for admin -->
+              <button *ngIf="userRole === 'Admin'" class="btn btn-sm btn-danger" (click)="deleteAttendance(att.attendanceID)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal-overlay">
+    <div class="modal-content">
+      <h5 class="mb-3">{{ successMessage }}</h5>
+      <button class="btn btn-success" (click)="closeSuccessModal()">OK</button>
+    </div>
+  </div>
+
+</div>

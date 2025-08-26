@@ -1,0 +1,48 @@
+.about-container {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 32px 24px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(44, 62, 80, 0.09);
+  }
+  
+  h1 {
+    color: #2a6cdf;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  
+  .intro {
+    font-size: 1.1rem;
+    color: #555;
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  
+  .about-content {
+    margin-bottom: 32px;
+    font-size: 1.07rem;
+  }
+  
+  .about-content ul {
+    margin: 14px 0 18px 24px;
+    color: #3c3c3c;
+  }
+  
+  .about-content li {
+    margin-bottom: 6px;
+  }
+  
+  .team-section {
+    margin-top: 24px;
+    background: #f4f8fb;
+    border-radius: 10px;
+    padding: 18px 22px;
+    text-align: center;
+  }
+  
+  .team-section h2 {
+    color: #2a6cdf;
+    margin-bottom: 8px;
+  }

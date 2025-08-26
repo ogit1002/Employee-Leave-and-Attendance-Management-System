@@ -1,0 +1,38 @@
+<div class="view-swap-shift-req-wrapper">
+  <div class="centered-content">
+    <div class="header-bar">
+      <h2 class="hover-title">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/swap.png" alt="Swap Icon" class="logo" />
+        <span>My Swap Shift Requests</span>
+      </h2>
+    </div>
+
+    <div *ngIf="loading" class="alert alert-info">Loading...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <table class="table" *ngIf="!loading && mySwapShiftRequests.length">
+      <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>From Shift ID</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Requested At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let req of mySwapShiftRequests">
+          <td>{{ req.swapShiftRequestID }}</td>
+          <td>{{ req.fromShiftID }}</td>
+          <td>{{ req.reason }}</td>
+          <td>{{ req.status }}</td>
+          <td>{{ formatDateTime(req.requestedAt) }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!loading && !mySwapShiftRequests.length && !error" class="alert alert-info">
+      No swap shift requests found.
+    </div>
+  </div>
+</div>

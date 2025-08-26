@@ -1,0 +1,37 @@
+<div class="view-my-shift-wrapper">
+  <div class="centered-content">
+    <div class="header-bar">
+      <h2 class="hover-title">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="Clock Icon" class="logo" />
+        <span>My Shifts</span>
+      </h2>
+    </div>
+
+    <div *ngIf="error" class="alert error-alert">{{ error }}</div>
+    <div *ngIf="loading" class="info-card"><span class="icon">&#8635;</span> Loading shifts...</div>
+    <div *ngIf="myShifts.length === 0 && !error && !loading" class="info-card">
+      <span class="icon">&#8505;</span> No shift records found.
+    </div>
+
+    <div *ngIf="myShifts.length > 0" class="card table-card">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Shift Date</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let shift of myShifts">
+              <td>{{ formatDate(shift.ShiftDate) }}</td>
+              <td>{{ formatTime(shift.ShiftDate) }}</td>
+              <td>{{ formatTime(shift.ShiftTime) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

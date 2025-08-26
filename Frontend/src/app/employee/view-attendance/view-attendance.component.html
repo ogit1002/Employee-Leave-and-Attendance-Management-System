@@ -1,0 +1,46 @@
+<div class="attendance-view-wrapper">
+  <div class="centered-content">
+    <div class="header-bar">
+      <h2 class="hover-title animated-title">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/combo-chart--v1.png" alt="Chart Icon" class="logo" />
+        <span>Attendance Records</span>
+      </h2>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error" class="alert error-alert">
+      {{ error }}
+    </div>
+
+    <!-- Info message only if no error -->
+    <div *ngIf="!error && !loading && attendances.length === 0" class="card info-card">
+      <span class="icon">&#8505;</span> No attendance records found.
+    </div>
+
+    <!-- Attendance table -->
+    <div *ngIf="!error && attendances.length > 0" class="card table-card">
+      <h3>My Attendance</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Clock In</th>
+              <th>Clock Out</th>
+              <th>Work Hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of attendances">
+              <td>{{record.clockInTime | date:'short'}}</td>
+              <td>{{record.clockOutTime | date:'short'}}</td>
+              <td>{{getWorkHours(record.clockInTime, record.clockOutTime)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-bar">Loading...</div>
+  </div>
+</div>

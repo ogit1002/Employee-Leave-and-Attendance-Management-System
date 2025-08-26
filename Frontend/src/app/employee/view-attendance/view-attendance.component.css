@@ -1,0 +1,133 @@
+.attendance-view-wrapper {
+  min-height: 100vh;
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+    url('/assets/image.jpg') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+  font-family: 'Poppins', sans-serif;
+}
+
+.centered-content {
+  width: 100%;
+  max-width: 800px;
+  background-size: cover;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(180, 140, 90, 0.1), 0 1.5px 10px #f0e8dc;
+  overflow: hidden;
+}
+
+.header-bar {
+  background: linear-gradient(90deg, #c8a97e 60%, #f5deb3 100%);
+  border-radius: 16px 16px 0 0;
+  padding: 1.5em 2em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.hover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  letter-spacing: 1.2px;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  vertical-align: middle;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+.card {
+  background: #fffaf0;
+  border-radius: 10px;
+  padding: 1.7em;
+  margin: 2em;
+  box-shadow: 0 1.5px 10px #e3e3e3;
+}
+
+.table-card {
+  padding-top: 1em;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.7em;
+  background: #fffef9;
+  border-radius: 7px;
+  box-shadow: 0 1px 6px #f0e8dc;
+}
+
+th, td {
+  border: 1px solid #f0e8dc;
+  padding: 0.55em 0.95em;
+  text-align: left;
+  font-size: 1.05em;
+}
+
+th {
+  background: #f5e9d3;
+  color: #8b5e3c;
+  font-size: 1.09em;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+tr:nth-child(even) {
+  background: #fdf6ec;
+}
+
+tr:hover {
+  background: #f5e9d3;
+}
+
+.info-card {
+  color: #8b5e3c;
+  background: #fff9e7;
+  border: 1.5px solid #ffd500;
+  display: flex;
+  align-items: center;
+  font-size: 1.1em;
+  padding: 1em 1.7em;
+  margin-top: 2em;
+}
+
+.info-card .icon {
+  font-size: 1.6em;
+  margin-right: 0.75em;
+}
+
+.alert {
+  margin: 1.1em 2em 0.5em 2em;
+  border-radius: 6px;
+  padding: 0.7em 1.2em;
+  font-weight: 500;
+  font-size: 1.05em;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.error-alert {
+  background: #fcebea;
+  color: #c62828;
+  border: 1.5px solid #e57373;
+}
+
+.loading-bar {
+  text-align: center;
+  font-size: 1.1em;
+  color: #8b5e3c;
+  padding: 1em;
+}
