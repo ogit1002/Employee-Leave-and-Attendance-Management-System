@@ -1,35 +1,51 @@
 # Employee Leave and Attendance Management System
-This project is a web-based application designed to simplify and automate the process of managing employee leave requests and attendance tracking. It provides an intuitive interface for employees, managers, and administrators to manage leave applications, monitor attendance records, and generate reports.
+A web-based application to simplify and automate employee leave and attendance management. It allows employees to request leave, mark attendance, and enables managers/admins to approve requests and monitor attendance through an easy-to-use interface.
 
 
-## Features
-User Authentication: Secure login for employees and admins.
+## 📌 Features
 
-Leave Management: Apply for leave, view leave balance, and track approval status.
+✅ User Authentication – Secure login for employees and admins
 
-Attendance Tracking: Mark attendance and view attendance history.
+✅ Leave Management – Apply, approve, or reject leave requests
 
-Role-Based Access: Different dashboards for employees, managers, and admins.
+✅ Attendance Tracking – Daily attendance marking and monitoring
 
-Reports & Analytics: Generate attendance and leave summary reports.
+✅ Role-Based Access – Different dashboards for employees, managers, and admins
 
-Responsive UI: Frontend built for easy access across devices.
+✅ Reports & Analytics – Generate leave and attendance reports
+
+✅ Responsive Design – Works across devices
 
 
-## Tech Stack
+## 🛠 Tech Stack
+
 Frontend: Angular
 
-Backend: .NET (C#), ASP.NET Core
+Backend: ASP.NET Core (.NET)
 
 Database: SQL Server
 
 Version Control: Git & GitHub
 
+## 📂 Folder Structure
+├── Backend/     # Contains API, controllers, and business logic
 
-## How It Works
+├── Frontend/    # Angular code for UI
 
-Employees log in to mark attendance and request leave.
+├── .github/     # GitHub workflows (CI/CD)
 
-Managers approve or reject leave requests.
+├── .gitignore   # Ignored files and folders
 
-Admins monitor attendance and generate reports.
+└── README.md    # Documentation
+
+
+## 🚀 Getting Started
+✅ Prerequisites
+
+Node.js (for Angular)
+
+Angular CLI
+
+.NET SDK (for backend)
+
+SQL Server
